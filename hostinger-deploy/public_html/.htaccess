@@ -1,0 +1,34 @@
+# ========================================================
+# StudyZone - Hostinger Business Web Hosting LiteSpeed / Apache Config
+# ========================================================
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Do not rewrite API requests - route directly to PHP
+  RewriteRule ^api/ - [L]
+
+  # 2. Do not rewrite existing files or directories (JS, CSS, images, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 3. Single Page Application (SPA) Fallback for all other routes
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Disable Directory Browsing for Security
+Options -Indexes
+
+# Enable Gzip / Deflate Compression for high speed on Hostinger
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

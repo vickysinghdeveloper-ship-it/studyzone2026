@@ -1,0 +1,6 @@
+{
+  "name": "StudyZone",
+  "description": "Smart Library & Study Center Management System with Owner Dashboard, Student Portal, Visual Seat Management, Fee & Attendance Tracking, QR ID Cards, and PHP/MySQL Hostinger Deployment Export.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
