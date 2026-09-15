@@ -86,7 +86,7 @@ function saveDB(data: any) {
 
 // --- REST API ROUTES ---
 
-app.get('/api/health', (req, res) => {
+app.get(['/health', '/healthz', '/api/health'], (req, res) => {
   res.json({ status: 'ok', app: 'StudyZone Smart Library Backend', timestamp: new Date().toISOString() });
 });
 
@@ -439,14 +439,16 @@ app.post('/api/plans', (req, res) => {
 
 // Launch Vite or serve static assets
 async function startServer() {
-  if (process.env.NODE_ENV !== 'production') {
+  const distPath = path.join(process.cwd(), 'dist');
+  const hasDist = fs.existsSync(path.join(distPath, 'index.html'));
+
+  if (!hasDist && process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
